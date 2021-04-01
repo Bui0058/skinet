@@ -29,6 +29,12 @@ namespace API
             services.AddApplicationServices(); //Add the ApplicationServicesExtensions class 
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddSwaggerDocumentation(); //add the custom Swagger Extension.
+            services.AddCors(opt => {  //add CORS policy for client-app 
+                opt.AddPolicy("CorsPolicy", policy => 
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +47,8 @@ namespace API
 
             app.UseRouting();
             app.UseStaticFiles();
+
+            app.UseCors("CorsPolicy"); //middleware for Cors
 
             app.UseAuthorization();
 
