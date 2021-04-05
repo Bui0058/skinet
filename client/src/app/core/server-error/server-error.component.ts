@@ -8,14 +8,12 @@ import { Router } from '@angular/router';
 })
 export class ServerErrorComponent implements OnInit {
   error: any;
-
   constructor(private router : Router) {
     const navigation = this.router.getCurrentNavigation();
     this.error = navigation?.extras?.state?.error; 
     //make sure we dont'have an error just because of passing error  
     //instead of the actual error
    }
-
   ngOnInit(): void {
   }
 
