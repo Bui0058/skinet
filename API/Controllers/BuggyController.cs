@@ -27,7 +27,6 @@ namespace API.Controllers
         {
             var thing = _context.Products.Find(42);
             var thingToReturn = thing.ToString(); //will generate exception on null.ToString()
-
             return Ok();
         }
         [HttpGet("badrequest")]
