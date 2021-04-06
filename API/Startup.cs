@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace API
 {
@@ -26,6 +27,11 @@ namespace API
             
             services.AddDbContext<StoreContext>(x => 
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            //add Redis to services 
+            services.AddSingleton<IConnectionMultiplexer>(c => {
+                var configuration = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"),true);
+                return ConnectionMultiplexer.Connect(configuration);
+            });
             services.AddApplicationServices(); //Add the ApplicationServicesExtensions class 
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddSwaggerDocumentation(); //add the custom Swagger Extension.
