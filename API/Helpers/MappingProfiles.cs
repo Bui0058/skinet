@@ -21,6 +21,8 @@ namespace API.Helpers
                 //we don't need to do configuration because the properties name  
                 //are exact match to each other.
                 //With ReversMap() this  can also map the orther way
+            CreateMap<CustomerBasketDto, CustomerBasket>().ReverseMap();
+            CreateMap<BasketItemDto, BasketItem>().ReverseMap();
         }
     }
 }

@@ -68,7 +68,6 @@ namespace API.Controllers
 
     }
 
-
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
@@ -89,6 +88,10 @@ namespace API.Controllers
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
+        if (CheckEmailExistAsync(registerDto.Email).Result.Value) { //check duplicate email address
+            return new BadRequestObjectResult(
+                        new ApiValidationErrorResponse{Errors = new []{"Email address is in use"}});
+        }
         var user = new AppUser
         {
             DisplayName = registerDto.DisplayName,
