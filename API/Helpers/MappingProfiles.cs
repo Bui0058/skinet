@@ -1,6 +1,7 @@
 using API.Dto;
 using AutoMapper;
 using Core.Entities;
+using Core.Entities.Identity;
 
 namespace API.Helpers
 {
@@ -16,6 +17,10 @@ namespace API.Helpers
                 //between the source & desnitation
                 //d: destination; o: option; s: source.
                 //the 3 ForMember use the Resolver class to add url to PictureUr.
+            CreateMap<Address, AddressDto>().ReverseMap();
+                //we don't need to do configuration because the properties name  
+                //are exact match to each other.
+                //With ReversMap() this  can also map the orther way
         }
     }
 }
