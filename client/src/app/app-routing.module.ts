@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { TestErrorComponent } from './core/test-error/test-error.component';
@@ -15,8 +16,12 @@ const routes: Routes = [
       data: {breadcrumb: 'Shop'}}, //lazy loading of Shop module
   {path: 'basket', loadChildren: () => import('./basket/basket.module').then(mod => mod.BasketModule), 
       data: {breadcrumb: 'Basket'}}, //lazy loading of Basket module
-  {path: 'checkout', loadChildren: () => import('./checkout/checkout.module').then(mod => mod.CheckoutModule), 
+  {path: 'checkout', 
+      canActivate: [AuthGuard], //add auth guard to protect checkout route
+      loadChildren: () => import('./checkout/checkout.module').then(mod => mod.CheckoutModule), 
       data: {breadcrumb: 'Checkout'}}, //lazy loading of Checkout module
+  {path: 'account', loadChildren: () => import('./account/account.module').then(mod => mod.AccountModule), 
+      data: {breadcrumb: {skip: true}}}, //lazy loading of Account module
   {path: '**', redirectTo: 'not-found', pathMatch: 'full'},
 ];
 

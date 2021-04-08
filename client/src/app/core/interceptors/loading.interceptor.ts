@@ -13,7 +13,9 @@ import { delay, finalize } from 'rxjs/operators';
 export class LoadingInterceptor implements HttpInterceptor {
   constructor(private busyService: BusyService) {}
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.busyService.busy();
+    if (!request.url.includes('emailexists')) { //only load the big spinner if not call API to check mail exist
+      this.busyService.busy();
+    }
     return next.handle(request).pipe(
       delay(1000),
       finalize(() => {
